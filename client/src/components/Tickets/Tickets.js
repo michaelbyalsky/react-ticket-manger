@@ -10,6 +10,13 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import clsx from 'clsx';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import Fab from '@material-ui/core/Fab';
+import CheckIcon from '@material-ui/icons/Check';
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -20,19 +27,38 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     maxHeight: 200,
   },
+  fabProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1,
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
 const Tickets = ({
-  hideTicket, ticketsData,
+  hideTicket, ticketsData, restoreTicket, doneTicket, loading
 }) => {
   const classes = useStyles();
 
-  const stringToTime = (timeString) => {
-    const fullTime = new Date(timeString).toString();
-    console.log(typeof (fullTime));
-    const halfTime = fullTime.slice(0, 25);
-    return halfTime;
-  };
+  function stringToTime(date) {
+    let time = new Date(date);
+    let createTime = `${time.getFullYear()}-${
+      time.getMonth() + 1
+    }-${time.getDate()} ${time.getHours()}:${
+      time.getMinutes() > 10 ? time.getMinutes() : `0${time.getMinutes()}`
+    }:${time.getSeconds() > 10 ? time.getSeconds() : `0${time.getSeconds()}`}`;
+    return createTime;
+  }
+
 
   if (!ticketsData) {
     return null;
@@ -51,7 +77,10 @@ const Tickets = ({
                     </Grid>
                     <Grid item>
                       <Typography gutterBottom variant="h6">
-                        <Button className="hideTicketButton" onClick={() => hideTicket(ticket)}>Hide</Button>
+                        { ticket.updated === true &&
+                      <CheckCircleOutlineIcon />
+                    }
+                    <Button classes={{root: "hideTicketButton"}} onClick={() => hideTicket(ticket)}>Hide</Button>
                       </Typography>
                     </Grid>
                   </Grid>
@@ -59,10 +88,22 @@ const Tickets = ({
                     <Typography color="textSecondary" variant="body2">{ticket.content}</Typography>
                   </List>
                 </div>
+                { ticket.labels &&
                 <Labels className="labels" labels={ticket.labels} />
+                  }
                 <div className="time_mail">
-                  <Typography gutterBottom>{`${stringToTime(ticket.creationTime)} | ${ticket.userEmail}`}</Typography>
+                  <Typography gutterBottom>{`by ${ticket.userEmail} | ${stringToTime(ticket.creationTime)}`}</Typography>
                 </div>
+                <div className="status">
+               {ticket.updated !== true && 
+               <Button onClick={() => doneTicket(ticket)} id="button" variant="contained" color="primary">Done</Button>
+            }
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+             { ticket.updated === true && 
+             <Button onClick={() => restoreTicket(ticket)} id="button" variant="contained" color="secondary">Undone</Button>
+            } 
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+              </div>
               </div>
             ))
         }

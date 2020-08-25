@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
+import './NavBar.css'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -79,9 +80,15 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  toolbar: {
+    minHeight: 128,
+    alignItems: 'flex-start',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
+  },
 }));
 
-export default function PrimarySearchAppBar({doneTicketsNumber, ticketsLeftNumber, restoreTickets ,hiddenTickets, searchText, setSearchText }) {
+export default function PrimarySearchAppBar({showAllTickets, doneTicketsNumber, ticketsLeftNumber, restoreTickets ,hiddenTickets, searchText, setSearchText }) {
   const classes = useStyles();
   // const [anchorEl, setAnchorEl] = React.useState(null);
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -165,8 +172,8 @@ export default function PrimarySearchAppBar({doneTicketsNumber, ticketsLeftNumbe
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="fixed" size="small" id="wrapper" position="static">
+        <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -183,6 +190,8 @@ export default function PrimarySearchAppBar({doneTicketsNumber, ticketsLeftNumbe
               <SearchIcon />
             </div>
             <InputBase
+             size="small"
+            id="searchInput"
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
@@ -191,18 +200,18 @@ export default function PrimarySearchAppBar({doneTicketsNumber, ticketsLeftNumbe
               value={searchText} onChange={(e) => setSearchText(e.target.value)}
             />
           </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-          <Button variant="contained" color="primary">
+          <div/>
+          <div >
+          <Button size="small" variant="contained" color="primary">
           {`TicketsLeft ${ticketsLeftNumber}`}
       </Button>
-      <Button variant="contained" color="primary">
+      <Button size="small" variant="contained" color="primary">
           {`Tickets Completed ${doneTicketsNumber}`}
       </Button>
-          <Button variant="contained" color="primary">
-          {`Hidden ${hiddenTickets}`}
+          <Button size="small" id="hideTicketsCounter" variant="contained" color="primary">
+          <span>Hidden Tickets&nbsp;&nbsp;</span>{hiddenTickets}
       </Button>
-          <Button id="restoreHideTickets" onClick={restoreTickets} variant="contained" color="primary">
+          <Button size="small" id="restoreHideTickets" onClick={showAllTickets} variant="contained" color="primary">
         Show All
       </Button>
           </div>

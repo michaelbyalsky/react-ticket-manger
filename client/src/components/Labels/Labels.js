@@ -11,16 +11,13 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
 const Labels = ({ labels }) => {
-  if (!labels) {
-    return null;
-  }
   return (
     <div className="labelsContainer">
       <div className="labels">
         {
             labels.map((label, i) => (
               <div className="label" key={i}>
-                <div className="label" color="primary">{label}</div>
+                <Chip classes={{root: "label"}} label={label} color="primary">{label}</Chip>
               </div>
             ))
         }

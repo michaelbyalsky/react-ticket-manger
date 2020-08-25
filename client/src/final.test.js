@@ -39,8 +39,16 @@ jest.setTimeout(30000);
 const projectName = '1.Ticket Manager UI';
 describe(projectName, () => {
   beforeAll(async () => {
-    browser = await puppeteer.launch();
+    browser = await puppeteer.launch({ args: [
+      `--window-size=1280,768`,
+    ], headless: false
+    });
     page = await browser.newPage();
+    const screenSize = {
+      width: 1280,
+      height: 768,
+    };
+    await page.setViewport(screenSize);
     useNock(page, ['http://localhost:3000/api']);
 
     await full4s.beforeAll();
@@ -65,11 +73,8 @@ describe(projectName, () => {
       .reply(200, mockData);
       await page.goto('http://localhost:3000/', { waitUntil: 'networkidle0' })
       const elements = await page.$$('.ticket');
-      console.log(mockData)
-    // console.log(elements);
     expect(elements.length).toBe(mockData.length);
     expect(getAllTicketsMock.isDone()).toBe(true)
-
     let firstLabel = await page.$('.ticket .label');
     let firstLabelValue = await (await firstLabel.getProperty('innerText')).jsonValue();
     expect(firstLabelValue).toBe(mockData[0].labels[0])
