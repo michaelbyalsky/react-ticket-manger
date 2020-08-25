@@ -61,7 +61,6 @@ const Tickets = ({
                 </div>
                 <Labels className="labels" labels={ticket.labels} />
                 <div className="time_mail">
-                  {/* <Time timeString={ticket.creationTime}/>     */}
                   <Typography gutterBottom>{`${stringToTime(ticket.creationTime)} | ${ticket.userEmail}`}</Typography>
                 </div>
               </div>

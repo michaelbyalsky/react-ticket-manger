@@ -20,7 +20,7 @@ const Labels = ({ labels }) => {
         {
             labels.map((label, i) => (
               <div className="label" key={i}>
-                <Chip className="label" label={label} color="primary" />
+                <div className="label" color="primary">{label}</div>
               </div>
             ))
         }
