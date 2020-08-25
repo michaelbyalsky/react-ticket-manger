@@ -7,7 +7,7 @@ import Main from '../Main/Main'
 function App() {
   return (
     <main>
-      <Main />
+     <Main/>
     </main>
   );
 }

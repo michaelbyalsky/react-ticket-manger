@@ -63,8 +63,10 @@ describe(projectName, () => {
       .get('/api/tickets')
       .query(() => true)
       .reply(200, mockData);
-    await page.goto('http://localhost:3000/', { waitUntil: 'networkidle0' })
-    const elements = await page.$$('.ticket');
+      await page.goto('http://localhost:3000/', { waitUntil: 'networkidle0' })
+      const elements = await page.$$('.ticket');
+      console.log(mockData)
+    // console.log(elements);
     expect(elements.length).toBe(mockData.length);
     expect(getAllTicketsMock.isDone()).toBe(true)
 

@@ -1,0 +1,8 @@
+.labels {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.label {
+    padding: 2px;
+}

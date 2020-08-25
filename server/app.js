@@ -32,10 +32,13 @@ app.post('/api/tickets/:ticketId/done', async (req, res) => {
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
+  console.log(currentTicket);
   currentTicket.updated = true;
-  storedTickets.forEach((ticket) => {
-    if (ticket.id === req.params.ticketId) {
+  storedTickets.map((ticket) => {
+    if (`:${ticket.id}` === req.params.ticketId) {
+      console.log('got here');
       Object.assign(ticket, currentTicket);
+      console.log(ticket);
     }
   });
   const message = JSON.stringify(storedTickets);
@@ -49,7 +52,8 @@ app.post('/api/tickets/:ticketId/undone/', async (req, res) => {
   const currentTicket = req.body;
   currentTicket.updated = false;
   storedTickets.forEach((ticket) => {
-    if (ticket.id === req.params.ticketId) {
+    console.log(ticket);
+    if (ticket.id == req.params.ticketId) {
       Object.assign(ticket, currentTicket);
     }
   });
