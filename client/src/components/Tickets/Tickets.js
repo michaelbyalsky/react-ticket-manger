@@ -17,6 +17,17 @@ import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import IconButton from '@material-ui/core/IconButton';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
+
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -26,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     overflow: 'auto',
     maxHeight: 200,
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
   },
   fabProgress: {
     color: green[500],
@@ -47,22 +67,28 @@ const useStyles = makeStyles((theme) => ({
 const Tickets = ({
   hideTicket, ticketsData, restoreTicket, doneTicket, loading
 }) => {
+  const [expanded, setExpanded] = React.useState(false);
   const classes = useStyles();
 
   function stringToTime(date) {
-    let time = new Date(date);
-    let createTime = `${time.getFullYear()}-${
-      time.getMonth() + 1
-    }-${time.getDate()} ${time.getHours()}:${
-      time.getMinutes() > 10 ? time.getMinutes() : `0${time.getMinutes()}`
-    }:${time.getSeconds() > 10 ? time.getSeconds() : `0${time.getSeconds()}`}`;
-    return createTime;
+     let dd = new Date(date);
+  let getTime = dd.getFullYear().toString() + "-" +
+      ("0" + (dd.getMonth() + 1).toString()).slice(-2) +
+      "-" +
+      ("0" + dd.getDate().toString()).slice(-2) +
+      " " +
+      new Date(date).toString().slice(16, 25);
+    return getTime;
   }
-
 
   if (!ticketsData) {
     return null;
   }
+
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   return (
   // <h1>ddd</h1>
@@ -71,36 +97,60 @@ const Tickets = ({
             ticketsData.map((ticket, i) => (
               <div className="ticket" key={i}>
                 <div className="section_1" key={i}>
+                <Accordion expanded={expanded === ticket.id} onChange={handleChange(ticket.id)}>
+                <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
                   <Grid container alignItems="center">
+                    <Grid item >
+                      <Typography gutterBottom variant="h6">{ticket.title}</Typography>
+                      {/* { ticket.updated === true &&
+                      <CheckCircleOutlineIcon />
+                    } */}
+                    </Grid>
                     <Grid item xs>
-                      <Typography gutterBottom variant="h5">{ticket.title}</Typography>
+                    { ticket.updated === true &&
+                      <CheckCircleOutlineIcon />
+                    }
                     </Grid>
                     <Grid item>
                       <Typography gutterBottom variant="h6">
-                        { ticket.updated === true &&
-                      <CheckCircleOutlineIcon />
-                    }
-                    <Button classes={{root: "hideTicketButton"}} onClick={() => hideTicket(ticket)}>Hide</Button>
+                   
+                    
+                    <IconButton classes={{root: "hideTicketButton"}} onClick={() => hideTicket(ticket)}>
+                      <VisibilityOffIcon/>
+                    </IconButton>
                       </Typography>
                     </Grid>
                   </Grid>
+                  </AccordionSummary>
+                  <AccordionDetails>
                   <List className={classes.root}>
                     <Typography color="textSecondary" variant="body2">{ticket.content}</Typography>
                   </List>
+                  </AccordionDetails>
+                  </Accordion>
                 </div>
+                {/* <div id="label_date"> */}
+                <Grid container alignItems="center">
+                <Grid item xs>
+                  <Typography gutterBottom>{`by ${ticket.userEmail} | ${stringToTime(ticket.creationTime)}`}</Typography>
+                </Grid>
+                <Grid item>
                 { ticket.labels &&
                 <Labels className="labels" labels={ticket.labels} />
                   }
-                <div className="time_mail">
-                  <Typography gutterBottom>{`by ${ticket.userEmail} | ${stringToTime(ticket.creationTime)}`}</Typography>
-                </div>
+                </Grid>
+                </Grid>
                 <div className="status">
                {ticket.updated !== true && 
-               <Button onClick={() => doneTicket(ticket)} id="button" variant="contained" color="primary">Done</Button>
+               <Button onClick={() => doneTicket(ticket)} id="button" variant="contained" color="primary" size="small">Done</Button>
             }
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
              { ticket.updated === true && 
-             <Button onClick={() => restoreTicket(ticket)} id="button" variant="contained" color="secondary">Undone</Button>
+             <Button onClick={() => restoreTicket(ticket)} id="button" variant="contained" color="secondary" size="small">Undone</Button>
             } 
             {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
               </div>

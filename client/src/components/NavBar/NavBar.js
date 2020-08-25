@@ -16,7 +16,11 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import './NavBar.css'
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import EventBusyIcon from '@material-ui/icons/EventBusy';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -81,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   toolbar: {
-    minHeight: 100,
+    minHeight: 60,
     alignItems: 'flex-start',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
@@ -100,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({showAllTickets, doneTicketsNumber, ticketsLeftNumber, restoreTickets ,hiddenTickets, searchText, setSearchText }) {
+export default function PrimarySearchAppBar({sortByDate, sortByUnDone, sortByDone ,showAllTickets, doneTicketsNumber, ticketsLeftNumber, restoreTickets ,hiddenTickets, searchText, setSearchText }) {
   const classes = useStyles();
   // const [anchorEl, setAnchorEl] = React.useState(null);
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -186,14 +190,14 @@ export default function PrimarySearchAppBar({showAllTickets, doneTicketsNumber, 
     <div className={classes.grow}>
       <AppBar position="fixed" size="small" id="wrapper" position="static">
         <Toolbar className={classes.toolbar}>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap>
             Ticket Manager
           </Typography>
@@ -214,20 +218,39 @@ export default function PrimarySearchAppBar({showAllTickets, doneTicketsNumber, 
           </div>
           <div/>
           <div id="buttons" className={classes.buttons1}>
-          <Button size="small" variant="contained" color="primary">
-          {`TicketsLeft ${ticketsLeftNumber}`}
-      </Button>
-      <Button size="small" variant="contained" color="primary">
-          {`Tickets Completed ${doneTicketsNumber}`}
-      </Button>
+        
       </div>
       <div id="buttons" className={classes.buttons2}>
-          <Button size="small" id="hideTicketsCounter" variant="contained" color="primary">
+          {/* <Button size="small" id="hideTicketsCounter" variant="contained" color="primary">
           <span>Hidden Tickets&nbsp;&nbsp;</span>{hiddenTickets}
-      </Button>
-          <Button size="small" id="restoreHideTickets" onClick={showAllTickets} variant="contained" color="primary">
+      </Button> */}
+      <IconButton id="restoreHideTickets" onClick={showAllTickets} size="small" variant="contained" color="primary">
+      <Badge  color="secondary">
+      <VisibilityIcon color="action"/>
+      </Badge>
+      </IconButton>
+      <IconButton id="hideTicketsCounter"  size="small" variant="contained" color="primary">
+      <Badge badgeContent={hiddenTickets} color="secondary">
+      <VisibilityOffIcon color="action"/>
+      </Badge>
+      </IconButton>
+      
+          {/* <Button size="small" id="restoreHideTickets" onClick={showAllTickets} variant="contained" color="primary">
         Show All
-      </Button>
+      </Button> */}
+      <IconButton onClick={sortByUnDone} size="small" variant="contained" color="primary">
+      <Badge badgeContent={ticketsLeftNumber} color="secondary">
+      <EventBusyIcon color="action"/>
+      </Badge>
+      </IconButton>
+      <IconButton onClick={sortByDone} size="small" variant="contained" color="primary">
+      <Badge badgeContent={doneTicketsNumber} color="secondary">
+      <EventAvailableIcon color="action"/>
+      </Badge>
+      </IconButton>
+      {/* <Button onClick={sortByDate} size="small" variant="contained" color="primary">
+          Sort By Date
+      </Button> */}
           </div>
         </Toolbar>
       </AppBar>

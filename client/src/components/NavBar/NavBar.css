@@ -4,5 +4,9 @@
 
 #buttons{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
+
+/* #button #hideTicketsCounter #restoreHideTickets{
+    padding: 1%
+} */

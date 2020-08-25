@@ -1,6 +1,9 @@
 .labels {
     display: flex;
     justify-content: flex-end;
+    margin-top: 0.5rem;
+    margin-left: 5rem;
+    justify-self: end;
 }
 
 .label {

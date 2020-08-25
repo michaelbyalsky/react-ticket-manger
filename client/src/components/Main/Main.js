@@ -14,9 +14,19 @@ const Main = () => {
   const [doneTicketsList, setDoneTicketsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const sortByDate  = (array) => {
-    array.sort((a,b) => new Date(b.creationTime) - new Date(a.creationTime));
-  }
+const sortByDone = () => {
+  const filteredDone = ticketsData.filter((ticket) => ticket.updated === true);
+  const filteredUnDone = ticketsData.filter((ticket) => ticket.updated !== true);
+  const sorted = filteredDone.concat(filteredUnDone)
+  setTicketsData(sorted)
+}
+
+const sortByUnDone = () => {
+  const filteredDone = ticketsData.filter((ticket) => ticket.updated === true);
+  const filteredUnDone = ticketsData.filter((ticket) => ticket.updated !== true);
+  const sorted = filteredUnDone.concat(filteredDone)
+  setTicketsData(sorted)
+}
 
   const searchTicket = () => {
     console.log(searchText);
@@ -40,11 +50,9 @@ const Main = () => {
   }, [searchText]);
 
   const showAllTickets = () => {
-    console.log(ticketsData);
-    console.log(hiddenData);
     const tempData = hiddenData.concat(ticketsData);
+    tempData.sort((a, b) => a.creationTime - b.creationTime);
     setTicketsData(tempData);
-    console.log(setTicketsData);
     setHiddenData([]);
     setHiddenTickets(0);
   };
@@ -126,6 +134,7 @@ const Main = () => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
         const undoneTickets = allData.filter((data) => data.updated !== true);
+        allData.sort((a, b) => a.creationTime - b.creationTime);
         setTicketsData(allData);
         setDoneTicketsList(doneTickets);
         setTicketsLeftNumber(undoneTickets.length);
@@ -140,6 +149,14 @@ const Main = () => {
     loadTickets();
   }, []);
 
+  const sortByDate = () => {
+    let tempData = ticketsData;
+    console.log(tempData);
+    tempData.sort((a, b) => a.creationTime - b.creationTime);
+    console.log(tempData);
+    setTicketsData(tempData)
+  }
+
   return (
     <>
       <div>
@@ -150,7 +167,11 @@ const Main = () => {
         setHiddenTickets={setHiddenTickets} 
         hiddenTickets={hiddenTickets} 
         setSearchText={setSearchText} 
-        searchText={searchText} />
+        searchText={searchText}
+        sortByUnDone={sortByUnDone} 
+        sortByDone={sortByDone} 
+        sortByDate={sortByDate}
+        />
       </div>
       <div>
         <Ticket 
