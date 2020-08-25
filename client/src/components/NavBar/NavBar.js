@@ -81,10 +81,22 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   toolbar: {
-    minHeight: 128,
+    minHeight: 100,
     alignItems: 'flex-start',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
+  },
+    buttons2: {
+    flexGrow: 1,
+  },
+  buttons1: {
+    display: 'flex',
+    justifyItems: 'space-between',
+    flexGrow: 1,
+    alignSelf: 'flex-end',
+  },
+  button : {
+  margin: '2px',   
   },
 }));
 
@@ -201,13 +213,15 @@ export default function PrimarySearchAppBar({showAllTickets, doneTicketsNumber, 
             />
           </div>
           <div/>
-          <div >
+          <div id="buttons" className={classes.buttons1}>
           <Button size="small" variant="contained" color="primary">
           {`TicketsLeft ${ticketsLeftNumber}`}
       </Button>
       <Button size="small" variant="contained" color="primary">
           {`Tickets Completed ${doneTicketsNumber}`}
       </Button>
+      </div>
+      <div id="buttons" className={classes.buttons2}>
           <Button size="small" id="hideTicketsCounter" variant="contained" color="primary">
           <span>Hidden Tickets&nbsp;&nbsp;</span>{hiddenTickets}
       </Button>
