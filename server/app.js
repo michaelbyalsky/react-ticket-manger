@@ -8,12 +8,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('../client/build'));
 
-// app.get('/api/tickets', async (req, res) => {
-//   const content = await fs.readFile('./data.json');
-//   const storedTickets = JSON.parse(content);
-//   res.send(storedTickets);
-// });
-
 app.get('/api/tickets', async (req, res) => {
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
@@ -27,7 +21,6 @@ app.get('/api/tickets', async (req, res) => {
 });
 
 app.post('/api/tickets/:ticketId/done/', async (req, res) => {
-  console.log("dd");
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
