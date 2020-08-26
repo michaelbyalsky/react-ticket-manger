@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Ticket from '../Tickets/Tickets';
-import './Main.css';
-import NavBar from '../NavBar/NavBar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Ticket from "../Tickets/Tickets";
+import "./Main.css";
+import NavBar from "../NavBar/NavBar";
 
 const Main = () => {
   const [ticketsData, setTicketsData] = useState([]);
@@ -14,19 +14,27 @@ const Main = () => {
   const [doneTicketsList, setDoneTicketsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-const sortByDone = () => {
-  const filteredDone = ticketsData.filter((ticket) => ticket.updated === true);
-  const filteredUnDone = ticketsData.filter((ticket) => ticket.updated !== true);
-  const sorted = filteredDone.concat(filteredUnDone)
-  setTicketsData(sorted)
-}
+  const sortByDone = () => {
+    const filteredDone = ticketsData.filter(
+      (ticket) => ticket.updated === true
+    );
+    const filteredUnDone = ticketsData.filter(
+      (ticket) => ticket.updated !== true
+    );
+    const sorted = filteredDone.concat(filteredUnDone);
+    setTicketsData(sorted);
+  };
 
-const sortByUnDone = () => {
-  const filteredDone = ticketsData.filter((ticket) => ticket.updated === true);
-  const filteredUnDone = ticketsData.filter((ticket) => ticket.updated !== true);
-  const sorted = filteredUnDone.concat(filteredDone)
-  setTicketsData(sorted)
-}
+  const sortByUnDone = () => {
+    const filteredDone = ticketsData.filter(
+      (ticket) => ticket.updated === true
+    );
+    const filteredUnDone = ticketsData.filter(
+      (ticket) => ticket.updated !== true
+    );
+    const sorted = filteredUnDone.concat(filteredDone);
+    setTicketsData(sorted);
+  };
 
   const searchTicket = () => {
     console.log(searchText);
@@ -58,7 +66,9 @@ const sortByUnDone = () => {
   };
 
   const hideTicket = (ChosenTicket) => {
-    const filteredData = ticketsData.filter((ticket) => ticket.id !== ChosenTicket.id);
+    const filteredData = ticketsData.filter(
+      (ticket) => ticket.id !== ChosenTicket.id
+    );
     setTicketsData(filteredData);
     setHiddenTickets(hiddenTickets + 1);
     setHiddenData([...hiddenData, ChosenTicket]);
@@ -67,7 +77,7 @@ const sortByUnDone = () => {
   const doneTicket = (currentTicket) => {
     setLoading(true);
     axios
-      .post(`/api/tickets/:${currentTicket.id}/done`, currentTicket)
+      .post(`/api/tickets?${currentTicket.id}/done`, currentTicket)
       .then((response) => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
@@ -75,7 +85,7 @@ const sortByUnDone = () => {
         setTicketsData(allData);
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -85,7 +95,7 @@ const sortByUnDone = () => {
   const restoreTicket = (currentTicket) => {
     setLoading(true);
     axios
-      .post(`/api/tickets/:${currentTicket.id}/undone`, currentTicket)
+      .post(`/api/tickets?${currentTicket.id}/undone`, currentTicket)
       .then((response) => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
@@ -93,7 +103,7 @@ const sortByUnDone = () => {
         setTicketsData(allData);
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -129,7 +139,7 @@ const sortByUnDone = () => {
 
   const loadTickets = () => {
     axios
-      .get('/api/tickets')
+      .get("/api/tickets")
       .then((response) => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
@@ -154,32 +164,34 @@ const sortByUnDone = () => {
     console.log(tempData);
     tempData.sort((a, b) => a.creationTime - b.creationTime);
     console.log(tempData);
-    setTicketsData(tempData)
-  }
+    setTicketsData(tempData);
+  };
 
   return (
     <>
       <div>
-        <NavBar showAllTickets={showAllTickets} 
-        restoreTickets={restoreTickets} 
-        doneTicketsNumber={doneTicketsNumber} 
-        ticketsLeftNumber={ticketsLeftNumber}
-        setHiddenTickets={setHiddenTickets} 
-        hiddenTickets={hiddenTickets} 
-        setSearchText={setSearchText} 
-        searchText={searchText}
-        sortByUnDone={sortByUnDone} 
-        sortByDone={sortByDone} 
-        sortByDate={sortByDate}
+        <NavBar
+          showAllTickets={showAllTickets}
+          restoreTickets={restoreTickets}
+          doneTicketsNumber={doneTicketsNumber}
+          ticketsLeftNumber={ticketsLeftNumber}
+          setHiddenTickets={setHiddenTickets}
+          hiddenTickets={hiddenTickets}
+          setSearchText={setSearchText}
+          searchText={searchText}
+          sortByUnDone={sortByUnDone}
+          sortByDone={sortByDone}
+          sortByDate={sortByDate}
         />
       </div>
       <div>
-        <Ticket 
-        loading={loading}
-        restoreTicket={restoreTicket} 
-        doneTicket={doneTicket} 
-        hideTicket={hideTicket} 
-        ticketsData={ticketsData} />
+        <Ticket
+          loading={loading}
+          restoreTicket={restoreTicket}
+          doneTicket={doneTicket}
+          hideTicket={hideTicket}
+          ticketsData={ticketsData}
+        />
       </div>
     </>
   );
