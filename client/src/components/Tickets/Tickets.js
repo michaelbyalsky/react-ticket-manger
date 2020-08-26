@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 200,
+    // maxHeight: 200,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
