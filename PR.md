@@ -9,5 +9,5 @@
 2. There is a sort by date button after making some changes.
 3. There is an accordion to hide and show data.
 
-* The build in tests run only when server off, my tests run only with server on.
+* The build-in tests run only when server off, my tests run only with server on.
 
