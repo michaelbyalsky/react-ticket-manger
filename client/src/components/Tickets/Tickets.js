@@ -22,30 +22,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     overflow: 'auto',
   },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
-  fabProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: -6,
-    left: -6,
-    zIndex: 1,
-  },
-  buttonProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
 }));
 
 const Tickets = ({
@@ -54,10 +30,11 @@ const Tickets = ({
   restoreTicket,
   doneTicket,
 }) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false); //set the state of the accordion
   const classes = useStyles();
 
-  function stringToTime(date) {
+  //covert time to sql time
+  const stringToTime = (date) => {
     const dd = new Date(date);
     const getTime = `${dd.getFullYear().toString()
     }-${
@@ -67,13 +44,10 @@ const Tickets = ({
     } ${
       new Date(date).toString().slice(16, 25)}`;
     return getTime;
-  }
+  };
 
-  if (!ticketsData) {
-    return null;
-  }
-
-  const handleChange = (panel) => (event, isExpanded) => {
+  // close and open every ticket content
+  const handleChange = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 

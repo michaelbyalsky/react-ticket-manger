@@ -4,15 +4,14 @@ import Ticket from '../Tickets/Tickets';
 import NavBar from '../NavBar/NavBar';
 
 const Main = () => {
-  const [ticketsData, setTicketsData] = useState([]);
-  const [searchText, setSearchText] = useState([]);
+  const [ticketsData, setTicketsData] = useState([]); // data array of the tickets user can see
+  const [searchText, setSearchText] = useState([]); // search input text
   const [hiddenTickets, setHiddenTickets] = useState(0);
-  const [hiddenData, setHiddenData] = useState([]);
-  const [doneTicketsNumber, setDoneTicketsNumber] = useState(0);
-  const [ticketsLeftNumber, setTicketsLeftNumber] = useState(0);
-  const [doneTicketsList, setDoneTicketsList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [hiddenData, setHiddenData] = useState([]); // the array of the hidden tickets
+  const [doneTicketsNumber, setDoneTicketsNumber] = useState(0); // counter of the done tickets
+  const [ticketsLeftNumber, setTicketsLeftNumber] = useState(0); // counter of the undone tickets
 
+  // show first the ticket that done
   const sortByDone = () => {
     const filteredDone = ticketsData.filter(
       (ticket) => ticket.updated === true,
@@ -24,6 +23,7 @@ const Main = () => {
     setTicketsData(sorted);
   };
 
+  // show the tickets that need to be done
   const sortByUnDone = () => {
     const filteredDone = ticketsData.filter(
       (ticket) => ticket.updated === true,
@@ -35,6 +35,7 @@ const Main = () => {
     setTicketsData(sorted);
   };
 
+  // search for ticket in the list
   const searchTicket = () => {
     console.log(searchText);
     axios
@@ -47,10 +48,12 @@ const Main = () => {
       });
   };
 
+  // call the search ticket function only when user types in the search bar
   useEffect(() => {
     searchTicket();
   }, [searchText]);
 
+  // show the hidden tickets tickets
   const showAllTickets = () => {
     const tempData = hiddenData.concat(ticketsData);
     setTicketsData(tempData);
@@ -58,12 +61,14 @@ const Main = () => {
     setHiddenTickets(0);
   };
 
+  // sort by creation time
   const sortByDate = () => {
     const tempData = Array.from(ticketsData);
     tempData.sort((a, b) => a.creationTime - b.creationTime);
     setTicketsData(tempData);
   };
 
+  // hide certain ticket by pressing hide icon
   const hideTicket = (ChosenTicket) => {
     const filteredData = ticketsData.filter(
       (ticket) => ticket.id !== ChosenTicket.id,
@@ -73,8 +78,8 @@ const Main = () => {
     setHiddenData([...hiddenData, ChosenTicket]);
   };
 
+  // update the ticket in the server to be done
   const doneTicket = (currentTicket) => {
-    setLoading(true);
     axios
       .post(`/api/tickets/:${currentTicket.id}/done`, currentTicket)
       .then((response) => {
@@ -84,15 +89,14 @@ const Main = () => {
         setTicketsData(allData);
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  // make the ticket be undone
   const restoreTicket = (currentTicket) => {
-    setLoading(true);
     axios
       .post(`/api/tickets/:${currentTicket.id}/undone`, currentTicket)
       .then((response) => {
@@ -102,13 +106,13 @@ const Main = () => {
         setTicketsData(allData);
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
-        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  // show all tickets in order og creation time
   const loadTickets = () => {
     axios
       .get('/api/tickets')
@@ -116,9 +120,9 @@ const Main = () => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
         const undoneTickets = allData.filter((data) => data.updated !== true);
+        // sorting function
         allData.sort((a, b) => a.creationTime - b.creationTime);
         setTicketsData(allData);
-        setDoneTicketsList(doneTickets);
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
       })
@@ -127,6 +131,7 @@ const Main = () => {
       });
   };
 
+  // load the all tickets only in the first render
   useEffect(() => {
     loadTickets();
   }, []);
@@ -149,13 +154,15 @@ const Main = () => {
         />
       </div>
       <div>
-        <Ticket
-          loading={loading}
-          restoreTicket={restoreTicket}
-          doneTicket={doneTicket}
-          hideTicket={hideTicket}
-          ticketsData={ticketsData}
-        />
+        {ticketsData
+        && (
+          <Ticket
+            restoreTicket={restoreTicket}
+            doneTicket={doneTicket}
+            hideTicket={hideTicket}
+            ticketsData={ticketsData}
+          />
+        )}
       </div>
     </>
   );

@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -61,18 +58,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: '20ch',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
     },
   },
   toolbar: {
@@ -134,7 +119,6 @@ const NavBar = ({
           <div />
           <div id="buttons" className={classes.buttons1} />
           <div id="buttons" className={classes.buttons2}>
-
             <IconButton
               id="restoreHideTickets"
               title="show all"
