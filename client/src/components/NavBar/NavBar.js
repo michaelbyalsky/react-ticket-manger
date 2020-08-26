@@ -259,7 +259,8 @@ export default function PrimarySearchAppBar({
             {/* <Button size="small" id="restoreHideTickets" onClick={showAllTickets} variant="contained" color="primary">
         Show All
       </Button> */}
-            <IconButton
+           <IconButton
+              id="sortByUnDone"
               onClick={sortByUnDone}
               size="small"
               variant="contained"
@@ -270,6 +271,7 @@ export default function PrimarySearchAppBar({
               </Badge>
             </IconButton>
             <IconButton
+              id="sortByDone"
               onClick={sortByDone}
               size="small"
               variant="contained"
@@ -279,6 +281,7 @@ export default function PrimarySearchAppBar({
                 <EventAvailableIcon color="action" />
               </Badge>
             </IconButton>
+
             {/* <Button onClick={sortByDate} size="small" variant="contained" color="primary">
           Sort By Date
       </Button> */}

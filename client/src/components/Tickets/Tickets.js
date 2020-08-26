@@ -155,7 +155,8 @@ const Tickets = ({
             {ticket.updated !== true && (
               <Button
                 onClick={() => doneTicket(ticket)}
-                classes={{ root: "doneButton" }}
+                classes={{ root: 'doneButton' }}
+                id={`doneButton_${i}`}
                 variant="contained"
                 color="primary"
                 size="small"
@@ -166,7 +167,8 @@ const Tickets = ({
             {ticket.updated === true && (
               <Button
                 onClick={() => restoreTicket(ticket)}
-                classes={{ root: "unDoneButton" }}
+                classes={{ root: 'doneButton' }}
+                id={`doneButton_${i}`}
                 variant="contained"
                 color="secondary"
                 size="small"

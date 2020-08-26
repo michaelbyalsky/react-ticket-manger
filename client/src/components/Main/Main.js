@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Ticket from "../Tickets/Tickets";
-import "./Main.css";
 import NavBar from "../NavBar/NavBar";
 
 const Main = () => {
