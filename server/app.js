@@ -26,7 +26,8 @@ app.get('/api/tickets', async (req, res) => {
   }
 });
 
-app.post('/api/tickets/:ticketId/done', async (req, res) => {
+app.post('/api/tickets/:ticketId/done/', async (req, res) => {
+  console.log("dd");
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
