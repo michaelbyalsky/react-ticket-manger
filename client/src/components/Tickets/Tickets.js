@@ -47,7 +47,7 @@ const Tickets = ({
   };
 
   // close and open every ticket content
-  const handleChange = (panel) => (isExpanded) => {
+  const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
