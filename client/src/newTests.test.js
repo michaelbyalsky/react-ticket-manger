@@ -99,7 +99,6 @@ describe('my test_1', () => {
     const doneButton = await page.$('#doneButton_0');
     let doneButtonInner = await (await doneButton.getProperty('innerText')).jsonValue();
     expect(doneButtonInner).toBe('UNDONE')
-    browser.close()  
 }, 15000)
 });
 })
@@ -149,7 +148,6 @@ describe('my test 2', () => {
     const doneButton = await page.$('#doneButton_0');
     let doneButtonInner = await (await doneButton.getProperty('innerText')).jsonValue();
     expect(doneButtonInner).toBe('DONE')
-    browser.close() 
     }, 15000)
   });
 })
