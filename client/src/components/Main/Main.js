@@ -37,7 +37,6 @@ const Main = () => {
 
   // search for ticket in the list
   const searchTicket = () => {
-    console.log(searchText);
     axios
       .get(`/api/tickets?searchText=${searchText}`)
       .then((response) => {

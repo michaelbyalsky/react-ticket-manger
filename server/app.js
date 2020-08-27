@@ -20,12 +20,25 @@ app.get('/api/tickets', async (req, res) => {
   }
 });
 
+app.get('/api/users', async (req, res) => {
+  let ifValid = false;
+  const content = await fs.readFile('./users.json');
+  const storedUsers = JSON.parse(content);
+  storedUsers.forEach((user) => {
+    if (user.name === req.query.name
+    && user.password === req.query.password) {
+      ifValid = true;
+    }
+  });
+  res.send(ifValid);
+});
+
 app.post('/api/tickets/:ticketId/done/', async (req, res) => {
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
   currentTicket.updated = true;
-  storedTickets.map((ticket) => {
+  storedTickets.forEach((ticket) => {
     if (`:${ticket.id}` === req.params.ticketId) {
       Object.assign(ticket, currentTicket);
     }

@@ -30,10 +30,10 @@ const Tickets = ({
   restoreTicket,
   doneTicket,
 }) => {
-  const [expanded, setExpanded] = React.useState(false); //set the state of the accordion
+  const [expanded, setExpanded] = React.useState(false); // set the state of the accordion
   const classes = useStyles();
 
-  //covert time to sql time
+  // covert time to sql time
   const stringToTime = (date) => {
     const dd = new Date(date);
     const getTime = `${dd.getFullYear().toString()
