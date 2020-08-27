@@ -11,3 +11,6 @@
 
 * glitch link https://glitch.com/edit/#!/michaelbyalsky-ticket-manager-glitch?path=README.md%3A1%3A0
 
+* I added react login which connects to the server with react router in different branch (because it crashes your tests).
+To test it insert user name: michael, password: 1122.
+
