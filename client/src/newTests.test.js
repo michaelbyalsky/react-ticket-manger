@@ -115,13 +115,13 @@ describe('my test 2', () => {
     await page.setViewport(screenSize);
     useNock(page, ['http://localhost:3000/api']);
 
-    await full4s.beforeAll();
+    // await full4s.beforeAll();
   });
   afterEach(async () => {
-    await full4s.afterEach(page);
+    // await full4s.afterEach(page);
   })
   afterAll(async () => {
-    await full4s.afterAll(projectName);
+    // await full4s.afterAll(projectName);
     await browser.close();
   });
   test('change the status of ticket from undone to done', async () => {
