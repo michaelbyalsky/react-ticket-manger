@@ -40,7 +40,7 @@ describe('my test_1', () => {
   beforeAll(async () => {
     browser = await puppeteer.launch({ args: [
       `--window-size=1280,768`,
-    ], headless: false
+    ]
     });
     page = await browser.newPage();
     const screenSize = {
@@ -109,7 +109,7 @@ describe('my test 2', () => {
   beforeAll(async () => {
     browser = await puppeteer.launch({ args: [
       `--window-size=1280,768`,
-    ], headless: false
+    ]
     });
     page = await browser.newPage();
     const screenSize = {

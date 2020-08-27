@@ -41,7 +41,7 @@ describe(projectName, () => {
   beforeAll(async () => {
     browser = await puppeteer.launch({ args: [
       `--window-size=1280,768`,
-    ], headless: false
+    ]
     });
     page = await browser.newPage();
     const screenSize = {
