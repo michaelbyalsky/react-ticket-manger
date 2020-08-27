@@ -52,13 +52,6 @@ describe('my test_1', () => {
 
     await full4s.beforeAll();
   });
-  afterEach(async () => {
-    await full4s.afterEach(page);
-  })
-  afterAll(async () => {
-    await full4s.afterAll(projectName);
-    await browser.close();
-  });
   test('sort by done and undone', async () => {
     const getAllTicketsMock = await nock('http://localhost:3000/', { allowUnmocked: true })
       .get('/api/tickets')
