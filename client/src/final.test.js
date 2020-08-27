@@ -50,16 +50,8 @@ describe(projectName, () => {
     };
     await page.setViewport(screenSize);
     useNock(page, ['http://localhost:3000/api']);
-
-    await full4s.beforeAll();
   });
-  afterEach(async () => {
-    await full4s.afterEach(page);
-  })
-  afterAll(async () => {
-    await full4s.afterAll(projectName);
-    await browser.close();
-  });
+ 
   test('The app title should be Tickets Manager', async () => {
     await page.goto('http://localhost:3000/', { waitUntil: 'networkidle0' })
     const currentTitle = await page.title();
