@@ -1,7 +1,10 @@
 const puppeteer = require('puppeteer');
 const nock = require('nock');
 const useNock = require('nock-puppeteer');
-const full4s = require('@suvelocity/tester');
+<<<<<<< HEAD
+=======
+//const full4s = require('@suvelocity/tester');
+>>>>>>> e0fad37d3d9495b7743524423b01d7d95b886ddd
 
 const mockData = [
   {
@@ -50,7 +53,14 @@ describe('my test_1', () => {
     await page.setViewport(screenSize);
     useNock(page, ['http://localhost:3000/api']);
 
-    await full4s.beforeAll();
+<<<<<<< HEAD
+=======
+    // await full4s.beforeAll();
+  });
+  afterAll(async () => {
+    // await full4s.afterAll(projectName);
+    await browser.close();
+>>>>>>> e0fad37d3d9495b7743524423b01d7d95b886ddd
   });
   test('sort by done and undone', async () => {
     const getAllTicketsMock = await nock('http://localhost:3000/', { allowUnmocked: true })
@@ -110,15 +120,6 @@ describe('my test 2', () => {
     };
     await page.setViewport(screenSize);
     useNock(page, ['http://localhost:3000/api']);
-
-    await full4s.beforeAll();
-  });
-  afterEach(async () => {
-    await full4s.afterEach(page);
-  })
-  afterAll(async () => {
-    await full4s.afterAll(projectName);
-    await browser.close();
   });
   test('change the status of ticket from undone to done', async () => {
     const getAllTicketsMock = await nock('http://localhost:3000/', { allowUnmocked: true })
