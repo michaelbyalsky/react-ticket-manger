@@ -80,13 +80,20 @@ const Main = () => {
 
   // update the ticket in the server to be done
   const doneTicket = (currentTicket) => {
+    let copyData = Array.from(ticketsData)
+    copyData.map((ticket) => {
+      if (ticket.id === currentTicket.id) {
+        ticket.updated = true
+      }
+    })
+    setTicketsData(copyData);
     axios
       .post(`/api/tickets/:${currentTicket.id}/done`, currentTicket)
       .then((response) => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
         const undoneTickets = allData.filter((data) => data.updated !== true);
-        setTicketsData(allData);
+       
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
       })
@@ -97,13 +104,19 @@ const Main = () => {
 
   // make the ticket be undone
   const restoreTicket = (currentTicket) => {
+    let copyData = Array.from(ticketsData)
+    copyData.map((ticket) => {
+      if (ticket.id === currentTicket.id) {
+        ticket.updated = false
+      }
+    })
+    setTicketsData(copyData);
     axios
       .post(`/api/tickets/:${currentTicket.id}/undone`, currentTicket)
       .then((response) => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
         const undoneTickets = allData.filter((data) => data.updated !== true);
-        setTicketsData(allData);
         setTicketsLeftNumber(undoneTickets.length);
         setDoneTicketsNumber(doneTickets.length);
       })
