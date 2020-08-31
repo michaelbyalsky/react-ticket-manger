@@ -87,16 +87,12 @@ const Main = () => {
       }
     })
     setTicketsData(copyData);
+    const doneTickets = copyData.filter((data) => data.updated === true);
+    const undoneTickets = copyData.filter((data) => data.updated !== true);
+    setTicketsLeftNumber(undoneTickets.length);
+    setDoneTicketsNumber(doneTickets.length);
     axios
       .post(`/api/tickets/:${currentTicket.id}/done`, currentTicket)
-      .then((response) => {
-        const allData = response.data;
-        const doneTickets = allData.filter((data) => data.updated === true);
-        const undoneTickets = allData.filter((data) => data.updated !== true);
-       
-        setTicketsLeftNumber(undoneTickets.length);
-        setDoneTicketsNumber(doneTickets.length);
-      })
       .catch((error) => {
         console.log(error);
       });
@@ -111,15 +107,12 @@ const Main = () => {
       }
     })
     setTicketsData(copyData);
+    const doneTickets = copyData.filter((data) => data.updated === true);
+    const undoneTickets = copyData.filter((data) => data.updated !== true);
+    setTicketsLeftNumber(undoneTickets.length);
+    setDoneTicketsNumber(doneTickets.length);
     axios
       .post(`/api/tickets/:${currentTicket.id}/undone`, currentTicket)
-      .then((response) => {
-        const allData = response.data;
-        const doneTickets = allData.filter((data) => data.updated === true);
-        const undoneTickets = allData.filter((data) => data.updated !== true);
-        setTicketsLeftNumber(undoneTickets.length);
-        setDoneTicketsNumber(doneTickets.length);
-      })
       .catch((error) => {
         console.log(error);
       });
