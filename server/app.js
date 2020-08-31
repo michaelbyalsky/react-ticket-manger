@@ -21,45 +21,33 @@ app.get('/api/tickets', async (req, res) => {
 });
 
 app.post('/api/tickets/:ticketId/done/', async (req, res) => {
-  let foundTicket = false
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
   currentTicket.updated = true;
   storedTickets.map((ticket) => {
     if (`:${ticket.id}` === req.params.ticketId) {
-      foundTicket = true
       Object.assign(ticket, currentTicket);
     }
   });
-  if (foundTicket) {
-    const message = JSON.stringify(storedTickets);
+  const message = JSON.stringify(storedTickets);
   await fs.writeFile('./data.json', message);
   res.send(storedTickets);
-  } else {
-  res.status(404)
-  }
 });
 
 app.post('/api/tickets/:ticketId/undone/', async (req, res) => {
-  let foundTicket = false
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
   currentTicket.updated = false;
   storedTickets.forEach((ticket) => {
     if (`:${ticket.id}` === req.params.ticketId) {
-      foundTicket = true
       Object.assign(ticket, currentTicket);
     }
   });
-  if (foundTicket) {
-    const message = JSON.stringify(storedTickets);
+  const message = JSON.stringify(storedTickets);
   await fs.writeFile('./data.json', message);
   res.send(storedTickets);
-  } else {
-    res.status(404)
-  } 
 });
 
 app.get('/', (req, res) => {
