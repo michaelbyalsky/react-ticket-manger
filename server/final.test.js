@@ -39,18 +39,17 @@ describe(projectName, () => {
   });
 
   test('Can mark ticket as done and undone', async () => {
-    const currentState = data[0].done;
+    const currentState = data[0].updated;
     const { body } = await request(app)
       .post(`/api/tickets/${data[0].id}/${currentState ? 'undone' : 'done'}`).query({
         searchText: 'full',
       })
       .expect(200);
-
     setTimeout(() => {
       expect(body.updated).toBe(true);
       const updatedData = require('./data.json');
-      expect(updatedData[0].done).toBe(!currentState);
-    }, 1000);
+      expect(updatedData[0].updated).toBe(!currentState);
+    }, 3000);
 
     const { body: undoneBody } = await request(app)
       .post(`/api/tickets/${data[0].id}/${currentState ? 'done' : 'undone'}`).query({
@@ -61,7 +60,7 @@ describe(projectName, () => {
     setTimeout(() => {
       expect(undoneBody.updated).toBe(true);
       const updatedData2 = require('./data.json');
-      expect(updatedData2[0].done).toBe(currentState);
-    }, 1000);
+      expect(updatedData2[0].updated).toBe(currentState);
+    }, 3000);
   });
 });
