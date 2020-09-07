@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  appBar: {
+    position: 'fixed',
+  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -61,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   toolbar: {
-    minHeight: 40,
+    minHeight: 0,
     alignItems: 'flex-start',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
@@ -95,7 +98,7 @@ const NavBar = ({
 
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed" size="small" id="wrapper" position="static">
+      <AppBar size="small" className={classes.appBar} id="wrapper">
         <Toolbar className={classes.toolbar}>
           <Typography className={classes.title} variant="h6" noWrap>
             Ticket Manager

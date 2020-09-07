@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Ticket from '../Tickets/Tickets';
-import NavBar from '../NavBar/NavBar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Ticket from "../Tickets/Tickets";
+import NavBar from "../NavBar/NavBar";
+import './Main.css'
 
 const Main = () => {
   const [ticketsData, setTicketsData] = useState([]); // data array of the tickets user can see
@@ -14,10 +15,10 @@ const Main = () => {
   // show first the ticket that done
   const sortByDone = () => {
     const filteredDone = ticketsData.filter(
-      (ticket) => ticket.updated === true,
+      (ticket) => ticket.updated === true
     );
     const filteredUnDone = ticketsData.filter(
-      (ticket) => ticket.updated !== true,
+      (ticket) => ticket.updated !== true
     );
     const sorted = filteredDone.concat(filteredUnDone);
     setTicketsData(sorted);
@@ -26,34 +27,33 @@ const Main = () => {
   // show the tickets that need to be done
   const sortByUnDone = () => {
     const filteredDone = ticketsData.filter(
-      (ticket) => ticket.updated === true,
+      (ticket) => ticket.updated === true
     );
     const filteredUnDone = ticketsData.filter(
-      (ticket) => ticket.updated !== true,
+      (ticket) => ticket.updated !== true
     );
     const sorted = filteredUnDone.concat(filteredDone);
     setTicketsData(sorted);
   };
 
-  // search for ticket in the list
-  const searchTicket = () => {
-    console.log(searchText);
-    axios
-      .get(`/api/tickets?searchText=${searchText}`)
-      .then((response) => {
-        setTicketsData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   // call the search ticket function only when user types in the search bar
   useEffect(() => {
+    // search for ticket in the list
+    const searchTicket = () => {
+      console.log(searchText);
+      axios
+        .get(`/api/tickets?searchText=${searchText}`)
+        .then((response) => {
+          setTicketsData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
     searchTicket();
   }, [searchText]);
 
-  // show the hidden tickets tickets
+  // show the hidden tickets
   const showAllTickets = () => {
     const tempData = hiddenData.concat(ticketsData);
     setTicketsData(tempData);
@@ -71,7 +71,7 @@ const Main = () => {
   // hide certain ticket by pressing hide icon
   const hideTicket = (ChosenTicket) => {
     const filteredData = ticketsData.filter(
-      (ticket) => ticket.id !== ChosenTicket.id,
+      (ticket) => ticket.id !== ChosenTicket.id
     );
     setTicketsData(filteredData);
     setHiddenTickets(hiddenTickets + 1);
@@ -80,12 +80,12 @@ const Main = () => {
 
   // update the ticket in the server to be done
   const doneTicket = (currentTicket) => {
-    let copyData = Array.from(ticketsData)
-    copyData.map((ticket) => {
+    let copyData = Array.from(ticketsData);
+    copyData.forEach((ticket) => {
       if (ticket.id === currentTicket.id) {
-        ticket.updated = true
+        ticket.updated = true;
       }
-    })
+    });
     setTicketsData(copyData);
     const doneTickets = copyData.filter((data) => data.updated === true);
     const undoneTickets = copyData.filter((data) => data.updated !== true);
@@ -100,12 +100,12 @@ const Main = () => {
 
   // make the ticket be undone
   const restoreTicket = (currentTicket) => {
-    let copyData = Array.from(ticketsData)
-    copyData.map((ticket) => {
+    let copyData = Array.from(ticketsData);
+    copyData.forEach((ticket) => {
       if (ticket.id === currentTicket.id) {
-        ticket.updated = false
+        ticket.updated = false;
       }
-    })
+    });
     setTicketsData(copyData);
     const doneTickets = copyData.filter((data) => data.updated === true);
     const undoneTickets = copyData.filter((data) => data.updated !== true);
@@ -121,7 +121,7 @@ const Main = () => {
   // show all tickets in order og creation time
   const loadTickets = () => {
     axios
-      .get('/api/tickets')
+      .get("/api/tickets")
       .then((response) => {
         const allData = response.data;
         const doneTickets = allData.filter((data) => data.updated === true);
@@ -144,7 +144,7 @@ const Main = () => {
 
   return (
     <>
-      <div>
+      <div id="NavBar">
         <NavBar
           showAllTickets={showAllTickets}
           doneTicketsNumber={doneTicketsNumber}
@@ -159,9 +159,8 @@ const Main = () => {
           ticketsData={ticketsData}
         />
       </div>
-      <div>
-        {ticketsData
-        && (
+      <div id="Ticket">
+        {ticketsData && (
           <Ticket
             restoreTicket={restoreTicket}
             doneTicket={doneTicket}
