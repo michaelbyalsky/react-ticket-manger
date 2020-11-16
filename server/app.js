@@ -1,71 +1,66 @@
 const express = require('express');
+const path = require('path');
+
 
 const app = express();
 
 const fs = require('fs').promises;
 
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('../client/build'));
+
+
+
+// app.get('/api/tickets', async (req, res) => {
+//   const content = await fs.readFile('./data.json');
+//   const storedTickets = JSON.parse(content);
+//   res.send(storedTickets);
+// });
 
 app.get('/api/tickets', async (req, res) => {
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
+  console.log(req.query.searchText);
   if (req.query.searchText) {
     const filteredTickets = storedTickets
       .filter((ticket) => ticket.title.toLowerCase().includes(req.query.searchText));
+    console.log(filteredTickets.length);
+    console.log(typeof (storedTickets));
     res.send(filteredTickets);
   } else {
     res.send(storedTickets);
   }
 });
 
-app.post('/api/tickets/:ticketId/done/', async (req, res) => {
-  let foundTicket = false
+app.post('/api/tickets/:ticketId/done', async (req, res) => {
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
   currentTicket.updated = true;
-  storedTickets.map((ticket) => {
-    if (`:${ticket.id}` === req.params.ticketId) {
-      foundTicket = true
+  storedTickets.forEach((ticket) => {
+    if (ticket.id === req.params.ticketId) {
       Object.assign(ticket, currentTicket);
     }
   });
-  if (foundTicket) {
-    const message = JSON.stringify(storedTickets);
-    await fs.writeFile('./data.json', message);
-    res.send(storedTickets);
-  } else {
-    res.send(storedTickets)
-    res.status(404)
-  }
+  const message = JSON.stringify(storedTickets);
+  await fs.writeFile('./data.json', message);
+  res.send(storedTickets);
 });
 
 app.post('/api/tickets/:ticketId/undone/', async (req, res) => {
-  let foundTicket = false
   const content = await fs.readFile('./data.json');
   const storedTickets = JSON.parse(content);
   const currentTicket = req.body;
   currentTicket.updated = false;
   storedTickets.forEach((ticket) => {
-    if (`:${ticket.id}` === req.params.ticketId) {
-      foundTicket = true
+    if (ticket.id === req.params.ticketId) {
       Object.assign(ticket, currentTicket);
     }
   });
-  if (foundTicket) {
-    const message = JSON.stringify(storedTickets);
-    await fs.writeFile('./data.json', message);
-    res.send(storedTickets);
-  } else {
-    res.send(storedTickets)
-    res.status(404)
-  } 
-});
-
-app.get('/', (req, res) => {
-  res.send('hello');
+  const message = JSON.stringify(storedTickets);
+  await fs.writeFile('./data.json', message);
+  res.send(storedTickets);
 });
 
 module.exports = app;
