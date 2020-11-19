@@ -10,7 +10,3 @@
 3. There is an accordion to hide and show data.
 
 * glitch link https://michaelbyalsky-ticket-manager-glitch.glitch.me/
-
-* I added react login which connects to the server with react router in different branch (because it crashes your tests).
-To test it insert user name: michael, password: 1122.
-
